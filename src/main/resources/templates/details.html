@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main.html}">
+
+<div layout:fragment="mainFragment">
+  <div class="ms-2">
+    <h2>
+      <span th:text="${car.name}"></span>
+      <span th:text="${car.model}"></span>
+    </h2>
+
+    <p class="text-muted">
+      Costs <span th:text="${car.price}"></span> USD
+    </p>
+
+    <p>
+      Manufactured in <span th:text="${car.year}"></span> year
+    </p>
+    <p th:if="${car.country != null}">
+      Manufactured in
+      <span th:text="${car.country.name}"></span>
+    </p>
+
+    <div class="d-flex" style="gap: 20px">
+      <a class="btn btn-primary me-3"
+         th:href="@{'/updatecar?id=' + ${car.id}}">
+        EDIT
+      </a>
+
+    </div>
+    <form method="post" th:action="@{'/deletecar?car_id=' + ${car.id}}">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="confirmDeleteCarModalLabel">
+            Confirm car deletion
+          </h1>
+
+          <button type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close">
+          </button>
+        </div>
+
+        <div class="modal-body">
+          Are you sure to delete car
+          <span th:text="${car.name}"></span>
+          <span th:text="${car.model}"></span>?
+        </div>
+
+        <div class="modal-footer">
+          <button type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal">
+            NO
+          </button>
+
+          <button type="submit" class="btn btn-danger">
+            YES
+          </button>
+        </div>
+      </div>
+
+    </form>
+
+    <div class="alert alert-success mb-4 mt-3"
+         th:if="${param.success != null}">
+      Information about this car has successfully been updated!
+    </div>
+  </div>
+</div>
+</html>

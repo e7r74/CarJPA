@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="UTF-8">
+  <title>Car Repository</title>
+
+  <link type="text/css" rel="stylesheet" th:href="@{'/css/bootstrap.min.css'}">
+
+  <link rel="stylesheet"
+        th:href="@{'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css'}">
+</head>
+<body>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <nav class="navbar navbar-expand-lg bg-danger">
+        <div class="container-fluid">
+          <a class="navbar-brand text-light" th:href="@{'/'}">Car Repository</a>
+
+          <ul class="navbar-nav ms-auto me-0 mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active text-light" th:href="@{'/'}">All Cars</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" th:href="@{'/addcar'}">Add new car</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-light" th:href="@{'/addcountry'}">
+                Add new country
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+</div>
+
+<div class="container" style="min-height: 635px;">
+  <div class="row">
+    <div class="col-12 mt-4" layout:fragment="mainFragment">
+
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid bg-dark text-light">
+  <div class="row py-3">
+    <div class="col-12 text-center">
+      Copyright &copy; All Rights Reserved
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" th:src="@{'/js/bootstrap.bundle.min.js'}"></script>
+</body>
+</html>

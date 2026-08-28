@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+  <title>All Cars</title>
+</head>
+<body>
+
+<div layout:fragment="mainFragment">
+
+  <h2 class="mb-4 ms-2">All Cars</h2>
+
+  <div class="ms-2 me-2">
+    <table class="table table-striped">
+      <thead class="table-warning">
+      <tr>
+        <th>ID</th>
+        <th>Name <span style="color: #434343;">(Brand)</span></th>
+        <th>Model</th>
+        <th>Year of manufacture</th>
+        <th>Price</th>
+        <th>Country-manufacturer</th>
+        <th>View</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr th:each="car : ${cars}">
+        <td class="pt-3" th:text="${car.id}"></td>
+        <td class="pt-3" th:text="${car.name}"></td>
+        <td class="pt-3" th:text="${car.model}"></td>
+        <td class="pt-3" th:text="${car.year}"></td>
+        <td class="pt-3" th:text="${car.price}"></td>
+
+        <!-- Вывод страны внутри цикла car -->
+        <td class="pt-3">
+          <span th:if="${car.country != null}"
+                th:text="${car.country.name + ' / ' + car.country.code}">
+          </span>
+          <i th:unless="${car.country != null}"
+             class="text-secondary">
+            UNKNOWN
+          </i>
+        </td>
+
+        <td>
+          <a class="btn btn-primary" th:href="@{'/car?id=' + ${car.id}}">View</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+</body>
+</html>
