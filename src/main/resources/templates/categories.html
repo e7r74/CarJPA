@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Categories</title>
+</head>
+<body>
+<div layout:fragment="mainFragment">
+
+    <form method="post" th:action="@{/category/addcategory}">
+        <h1>Add category</h1>
+        <div>
+            <input type="text"
+                   id="category_name"
+                   name="category_name"
+                   placeholder="category_name"
+                   required>
+            <label for="category_name">Name</label>
+        </div>
+        <button type="submit">Save</button>
+    </form>
+
+    <hr>
+
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Category</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="category : ${categories}">
+                <td th:text="${category.id}"></td>
+                <td th:text="${category.name}"></td>
+                <td>
+                    <a th:href="@{'/category/' + ${category.id}}">Details</a>
+                    <a th:href="@{'/category/delcategory/' + ${category.id}}">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>

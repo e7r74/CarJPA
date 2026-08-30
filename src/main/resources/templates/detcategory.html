@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Category Details</title>
+</head>
+<body>
+<div layout:fragment="mainFragment">
+    <h1>Category Details</h1>
+
+    <div>
+        <p><strong>ID:</strong> <span th:text="${category.id}"></span></p>
+        <p><strong>Name:</strong> <span th:text="${category.name}"></span></p>
+    </div>
+
+    <hr>
+
+    <!-- Форма обновления -->
+    <form method="post" th:action="@{'/category/updatecat/' + ${category.id}}">
+        <h2>Update Category</h2>
+        <div>
+            <label for="category_name">New Name:</label>
+            <input type="text"
+                   id="category_name"
+                   name="category_name"
+                   th:value="${category.name}"
+                   required>
+        </div>
+        <button type="submit">Save Changes</button>
+    </form>
+
+    <br>
+    <a th:href="@{/category}">Back to Categories</a>
+</div>
+</body>
+</html>

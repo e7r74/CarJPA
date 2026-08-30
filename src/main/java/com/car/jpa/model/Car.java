@@ -3,6 +3,8 @@ package com.car.jpa.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name="cars")
 @Getter
@@ -26,4 +28,7 @@ public class Car {
     @JoinColumn(name = "country_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Country country;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Category> categories;
 }
