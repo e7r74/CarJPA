@@ -6,6 +6,7 @@ import com.car.jpa.model.Country;
 import com.car.jpa.repository.CarRepository;
 import com.car.jpa.repository.CategoriesRepository;
 import com.car.jpa.repository.CountryRepository;
+import  org.springframework.data.jpa.domain.Specification;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Controller;
@@ -56,13 +57,57 @@ public class CarController {
 
 
     @GetMapping(value = "/")
-    public String carsPage(Model model){
-        List<Car> cars= carRepository.findAll();
-        model.addAttribute("cars", cars);
+    public String carsPage(Model model,
+                            @RequestParam(name = "year", required = false) Integer year,
+                           @RequestParam(name="name",required = false)String name,
+                            @RequestParam(name="price", required = false) Integer price,
+                           @RequestParam(name="country_id", required = false)Long countryId,
+                           @RequestParam(name="category_id", required = false) Long categoryId){
+//        List<Country> countries=countryRepository.findAll();
+//        model.addAttribute("countries", countries);
+//        List<Car> cars;
+//
+//        if (year != null && name!=null){
+////            cars = carRepository.findAllByYear(year);
+////////////////////////////////////////////
+//                //CustomCarRepository
+
+//              cars=carRepository.findAllByCriteria(name,year);
+//        }else {
+//            cars =carRepository.findAll();
+//        }
+////////////////////////////////////
+        //CustomCarRepository-2
+/////////////////////////////////
+        List<Car> cars=carRepository.findAllByCriteria(name,year,price,countryId,categoryId);
         List<Country> countries=countryRepository.findAll();
         model.addAttribute("countries", countries);
+        List<Category> categories=categoriesRepository.findAll();
+        model.addAttribute("categories", categories);
+        if (countryId!=null){
+            model.addAttribute("country_id_chek", countryId);
+        }
+        if (categoryId!= null){
+            model.addAttribute("category_id_chek", categoryId);
+        }
+        model.addAttribute("cars", cars);
         return "cars";
     }
+
+////////////////////////////////////
+//    Specification
+////////////////////////////////////
+//        @GetMapping("/")
+//        public String carsPage(@RequestParam(name = "name", required = false) String name,
+//                               Model model){
+//
+//         Specification<Car> carSpecification = ((root, query, criteriaBuilder) ->
+//                                                criteriaBuilder.equal(root.get("name"), name) );
+//            List<Car> cars=carRepository.findAll(carSpecification);
+//            model.addAttribute("cars",cars);
+//            return "cars";
+//        }
+
 
 
     @GetMapping(value = "/car")
@@ -169,4 +214,5 @@ public class CarController {
         }
         return "redirect:/404";
     }
+
 }
