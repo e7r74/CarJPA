@@ -6,6 +6,9 @@ import com.car.jpa.model.Country;
 import com.car.jpa.repository.CarRepository;
 import com.car.jpa.repository.CategoriesRepository;
 import com.car.jpa.repository.CountryRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import  org.springframework.data.jpa.domain.Specification;
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -54,45 +58,46 @@ public class CarController {
             return "redirect:/";
         }return "redirect:/addcar?countryNotFound";
     }
-
-
-    @GetMapping(value = "/")
-    public String carsPage(Model model,
-                            @RequestParam(name = "year", required = false) Integer year,
-                           @RequestParam(name="name",required = false)String name,
-                            @RequestParam(name="price", required = false) Integer price,
-                           @RequestParam(name="country_id", required = false)Long countryId,
-                           @RequestParam(name="category_id", required = false) Long categoryId){
+//==============================================
+/////////////AllCustomCarRepository//////////////
+//==============================================
+//    @GetMapping(value = "/")
+//    public String carsPage(Model model,
+//                            @RequestParam(name = "year", required = false) Integer year,
+//                           @RequestParam(name="name",required = false)String name,
+//                            @RequestParam(name="price", required = false) Integer price,
+//                           @RequestParam(name="country_id", required = false)Long countryId,
+//                           @RequestParam(name="category_id", required = false) Long categoryId){
+////        List<Country> countries=countryRepository.findAll();
+////        model.addAttribute("countries", countries);
+////        List<Car> cars;
+////
+////        if (year != null && name!=null){
+//////            cars = carRepository.findAllByYear(year);
+//////////////////////////////////////////////
+////                //CustomCarRepository
+//
+////              cars=carRepository.findAllByCriteria(name,year);
+////        }else {
+////            cars =carRepository.findAll();
+////        }
+//////////////////////////////////////
+//        //CustomCarRepository-2
+///////////////////////////////////
+//        List<Car> cars=carRepository.findAllByCriteria(name,year,price,countryId,categoryId);
 //        List<Country> countries=countryRepository.findAll();
 //        model.addAttribute("countries", countries);
-//        List<Car> cars;
-//
-//        if (year != null && name!=null){
-////            cars = carRepository.findAllByYear(year);
-////////////////////////////////////////////
-//                //CustomCarRepository
-
-//              cars=carRepository.findAllByCriteria(name,year);
-//        }else {
-//            cars =carRepository.findAll();
+//        List<Category> categories=categoriesRepository.findAll();
+//        model.addAttribute("categories", categories);
+//        if (countryId!=null){
+//            model.addAttribute("country_id_chek", countryId);
 //        }
-////////////////////////////////////
-        //CustomCarRepository-2
-/////////////////////////////////
-        List<Car> cars=carRepository.findAllByCriteria(name,year,price,countryId,categoryId);
-        List<Country> countries=countryRepository.findAll();
-        model.addAttribute("countries", countries);
-        List<Category> categories=categoriesRepository.findAll();
-        model.addAttribute("categories", categories);
-        if (countryId!=null){
-            model.addAttribute("country_id_chek", countryId);
-        }
-        if (categoryId!= null){
-            model.addAttribute("category_id_chek", categoryId);
-        }
-        model.addAttribute("cars", cars);
-        return "cars";
-    }
+//        if (categoryId!= null){
+//            model.addAttribute("category_id_chek", categoryId);
+//        }
+//        model.addAttribute("cars", cars);
+//        return "cars";
+//    }
 
 ////////////////////////////////////
 //    Specification
@@ -109,6 +114,46 @@ public class CarController {
 //        }
 
 
+
+
+
+
+
+
+//==============================================
+
+
+
+// =======================================================
+    /////////////Pagination. PageRequest, Pageable, сортировка//////////////
+//=======================================================
+@GetMapping(value = "/")
+public String carsPage(Model model,
+
+                       @RequestParam(name="page", required = false, defaultValue = "0") int pageNumber,
+                       @RequestParam(name="size", required = false, defaultValue = "8") int pageSize,
+                       @RequestParam(name="price", required = false, defaultValue = "price") String sortBy,
+                       @RequestParam(name = "sort_order", required = false, defaultValue = "ASC")String sortOrder){
+    Sort sort= Sort.by(
+            sortOrder.equals("ASC")? Sort.Direction.ASC : Sort.Direction.DESC,
+            sortBy
+    );
+    PageRequest pageRequest= PageRequest.of(pageNumber,pageSize, sort);
+    Page<Car> carPage= carRepository.findAll(pageRequest);
+    List<Car> cars = carPage.getContent();
+    model.addAttribute("cars", cars);
+    int currentPageNumber=carPage.getNumber();
+    model.addAttribute("current_page", currentPageNumber);
+    model.addAttribute("page_size",pageSize);
+    int totalPageNumber= carPage.getTotalPages();
+    model.addAttribute("total_page",totalPageNumber);
+    List<Integer> pages= IntStream.range(0,totalPageNumber).boxed().toList();
+    model.addAttribute("pages", pages);
+
+    model.addAttribute("sortBy", sortBy);
+    model.addAttribute("sortOrder",sortOrder);
+    return "cars";
+}
 
     @GetMapping(value = "/car")
     public String carById(@RequestParam(name = "id") Long id,

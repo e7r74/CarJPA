@@ -5,6 +5,8 @@
       layout:decorate="~{layout/main}">
 <head>
   <title>All Cars</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -107,10 +109,105 @@
     </table>
   </div>
 
+  <div class="card px-3 py-3 my-3 ms-2 w-50">
 
+    <h4>Sort cars:</h4>
+
+    <form method="get"
+          class="d-flex"
+          th:action="@{'/'}">
+
+      <div class="form-floating me-3">
+        <select class="form-select"
+                id="sort_by"
+                name="sort_by">
+
+          <option value="name" th:selected="${sortBy.equals('name')}">
+            Name
+          </option>
+
+          <option value="year" th:selected="${sortBy.equals('year')}">
+            Year
+          </option>
+
+          <option value="price" th:selected="${sortBy.equals('price')}">
+            Price
+          </option>
+
+        </select>
+
+        <label for="sort_by">Sort by:</label>
+      </div>
+
+      <div class="form-floating me-3">
+        <select class="form-select"
+                id="sort_order"
+                name="sort_order">
+
+          <option value="ASC" th:selected="${sortOrder.equals('ASC')}">
+            Ascending
+          </option>
+
+          <option value="DESC" th:selected="${sortOrder.equals('DESC')}">
+            Descending
+          </option>
+
+        </select>
+
+        <label for="sort_order">Order:</label>
+      </div>
+
+      <div class="form-floating me-3">
+        <input type="text"
+               class="form-control"
+               id="size"
+               name="size"
+               placeholder="size"
+               th:value="${param.size}">
+
+        <label for="size">Page size:</label>
+      </div>
+
+      <button type="submit"
+              class="btn btn-success"
+              style="height: 43.5pt;">
+        OK
+      </button>
+
+    </form>
+  </div>
+
+
+
+  <nav aria-label="Pagination navigation" class="mt-4">
+    <ul class="pagination justify-content-center">
+
+      <li th:class="${current_page == 0 ? 'page-item disabled' : 'page-item'}">
+        <a class="page-link"
+           th:href="@{'/?page=' + ${current_page - 1} + '&size=' + ${page_size}}"
+           aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li th:each="page_number : ${pages}" class="page-item">
+        <a th:class="${page_number == current_page ? 'page-link active' : 'page-link'}"
+           th:href="@{'/?page=' + ${page_number} + '&size=' + ${page_size}}"
+           th:text="${page_number + 1}">
+        </a>
+      </li>
+      <li th:class="${current_page == total_page - 1 ? 'page-item disabled' : 'page-item'}">
+        <a class="page-link"
+           th:href="@{'/?page=' + ${current_page + 1} + '&size=' + ${page_size}}"
+           aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
 
 
 </div>
+
 
 </body>
 </html>
