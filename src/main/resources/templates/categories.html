@@ -10,17 +10,14 @@
 <body>
 <div layout:fragment="mainFragment">
 
+    <!-- Форма создания новой категории -->
     <form method="post" th:action="@{/category/addcategory}">
-        <h1>Add category</h1>
         <div>
-            <input type="text"
-                   id="category_name"
-                   name="category_name"
-                   placeholder="category_name"
-                   required>
-            <label for="category_name">Name</label>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter category name" required>
         </div>
-        <button type="submit">Save</button>
+
+        <button type="submit">Add Category</button>
     </form>
 
     <hr>

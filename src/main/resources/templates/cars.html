@@ -122,15 +122,15 @@
                 id="sort_by"
                 name="sort_by">
 
-          <option value="name" th:selected="${sortBy.equals('name')}">
+          <option value="name" th:selected="${sort_by.equals('name')}">
             Name
           </option>
 
-          <option value="year" th:selected="${sortBy.equals('year')}">
+          <option value="year" th:selected="${sort_by.equals('year')}">
             Year
           </option>
 
-          <option value="price" th:selected="${sortBy.equals('price')}">
+          <option value="price" th:selected="${sort_by.equals('price')}">
             Price
           </option>
 
@@ -144,11 +144,11 @@
                 id="sort_order"
                 name="sort_order">
 
-          <option value="ASC" th:selected="${sortOrder.equals('ASC')}">
+          <option value="ASC" th:selected="${sort_order.equals('ASC')}">
             Ascending
           </option>
 
-          <option value="DESC" th:selected="${sortOrder.equals('DESC')}">
+          <option value="DESC" th:selected="${sort_order.equals('DESC')}">
             Descending
           </option>
 
@@ -189,13 +189,13 @@
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
-      <li th:each="page_number : ${pages}" class="page-item">
+      <li th:each="page_number : ${page_numbers}" class="page-item">
         <a th:class="${page_number == current_page ? 'page-link active' : 'page-link'}"
            th:href="@{'/?page=' + ${page_number} + '&size=' + ${page_size}}"
            th:text="${page_number + 1}">
         </a>
       </li>
-      <li th:class="${current_page == total_page - 1 ? 'page-item disabled' : 'page-item'}">
+      <li th:class="${current_page == total_pages - 1 ? 'page-item disabled' : 'page-item'}">
         <a class="page-link"
            th:href="@{'/?page=' + ${current_page + 1} + '&size=' + ${page_size}}"
            aria-label="Next">

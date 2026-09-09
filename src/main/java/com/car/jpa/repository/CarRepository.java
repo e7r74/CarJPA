@@ -4,13 +4,14 @@ import com.car.jpa.model.Car;
 import com.car.jpa.repository.custom.CustomCarRepository;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface CarRepository extends JpaRepository<Car,Long>, CustomCarRepository {
+public interface CarRepository extends JpaRepository<Car,Long>, JpaSpecificationExecutor<Car>, CustomCarRepository {
     List<Car> findAll(Specification<Car> carSpecification);
     
 //    @Query ("""

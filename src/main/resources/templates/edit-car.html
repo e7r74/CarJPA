@@ -13,19 +13,19 @@
   <div class="col-6 offset-3 mt-5 pt-4">
     <form class="card px-3 py-3 mt-2"
           method="post"
-          th:action="@{'/updatecar'}">
+          th:action="@{/updatecar}">
 
       <h2 class="text-center mb-3">Edit Car</h2>
 
-      <!-- Сообщение об ошибке перенесено наверх (так удобнее читать пользователю) -->
       <div class="alert alert-danger mb-3"
            role="alert"
            th:if="${param.countryNotFound != null}">
         You have chosen an invalid country or your car does not exist!
       </div>
 
+      <!-- ИСПРАВЛЕНИЕ 1: name="id" вместо name="car_id" -->
       <input type="hidden"
-             name="car_id"
+             name="id"
              th:value="${car.id}">
 
       <div class="form-floating mb-3">
@@ -33,7 +33,7 @@
                class="form-control"
                id="car_name"
                placeholder="car_name"
-               name="car_name"
+               name="name"
                th:value="${car.name}"
                required>
         <label for="car_name">Name (Brand)</label>
@@ -44,7 +44,7 @@
                class="form-control"
                id="car_model"
                placeholder="car_model"
-               name="car_model"
+               name="model"
                th:value="${car.model}"
                required>
         <label for="car_model">Model</label>
@@ -55,7 +55,7 @@
                class="form-control"
                id="car_year"
                placeholder="car_year"
-               name="car_year"
+               name="year"
                th:value="${car.year}"
                required>
         <label for="car_year">Year of manufacture</label>
@@ -66,17 +66,17 @@
                class="form-control"
                id="car_price"
                placeholder="car_price"
-               name="car_price"
+               name="price"
                th:value="${car.price}"
                required>
         <label for="car_price">Price</label>
       </div>
 
-      <!-- Обернули select и label в floating-блок -->
+      <!-- ИСПРАВЛЕНИЕ 2: name="country.id" вместо name="country" -->
       <div class="form-floating mb-3">
         <select class="form-select"
                 id="country_id"
-                name="country_id"
+                name="country.id"
                 required>
           <option th:each="country : ${countries}"
                   th:value="${country.id}"

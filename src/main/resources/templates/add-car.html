@@ -9,62 +9,41 @@
 </head>
 <body>
   <div layout:fragment="mainFragment">
-    <form th:action="@{'/addcar'}" method="post">
+    <form method="post" th:action="@{'/addcar'}">
+
       <div>
-        <input type="text"
-               class="form-control"
-               id="car_name"
-               placeholder="car_name"
-               name="car_name"
-               required>
-        <label for="car_name">Name (Brand)</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input type="text"
-               class="form-control"
-               id="car_model"
-               placeholder="car_model"
-               name="car_model"
-               required>
-        <label for="car_model">Model</label>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
       </div>
 
-      <div class="form-floating mb-3">
-        <input type="number"
-               class="form-control"
-               id="car_year"
-               placeholder="car_year"
-               name="car_year"
-               required>
-        <label for="car_year">Year of manufacture</label>
+      <div>
+        <label for="model">Model:</label>
+        <input type="text" id="model" name="model" required>
       </div>
 
-      <div class="form-floating mb-3">
-        <input type="number"
-               class="form-control"
-               id="car_price"
-               placeholder="car_price"
-               name="car_price"
-               required>
-        <label for="car_price">Price</label>
-      </div>
       <div>
-        <select id="country_id"
-                aria-label="country_id"
-                name="country_id"
-                required>
-              <option th:each="country : ${countries}"
-                      th:value="${country.id}"
-                      th:text="${country.getName()+ ' / '+ country.getCode()} ">
-              </option>
+        <label for="year">Year:</label>
+        <input type="number" id="year" name="year" required>
+      </div>
+
+      <div>
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required>
+      </div>
+
+      <div>
+        <label for="country_id">Country:</label>
+
+        <select id="country_id" name="country.id" required>
+          <option th:each="country : ${countries}"
+                  th:value="${country.id}"
+                  th:text="${country.name + ' / ' + country.code}">
+          </option>
         </select>
-        <label for="country_id">Country-manufacturer</label>
       </div>
-      <div role="alert"
-            th:if="${param.countryNotFound != null}">You have chosen invalid country!</div>
-      <div class="d-grid gap-2 col-4 mx-auto">
-        <button class="btn btn-success" type="submit">SAVE</button>
-      </div>
+
+      <button type="submit">SAVE</button>
+
     </form>
   </div>
 </body>
